@@ -1,0 +1,46 @@
+#!/usr/bin/env node
+
+const { resolve } = require('path');
+const program = require('commander');
+const { command } = require('commander');
+const commands = require(resolve(__dirname, '../src/commands'));
+const { version } = require(resolve(__dirname, '../package.json'));
+
+process.env.NODE_PATH = resolve(__dirname, '../node_modules/');
+
+program
+  .version(version);
+
+program
+  .usage('<please run th-react-cli list>');
+
+program
+  .command('add')
+  .description('Add a new template')
+  .alias('a')
+  .action(commands.add);
+
+program
+  .command('list')
+  .description('List all templates')
+  .alias('ls')
+  .action(commands.list);
+
+program
+  .command('delete')
+  .description('Delete a template')
+  .alias('d')
+  .action(commands.del);
+
+program
+  .command('init')
+  .description('Generate a new project')
+  .alias('i')
+  .action(commands.init);
+
+program.parse(program.argv);
+
+if (!program.args.length) {
+  program.help();
+}
+
